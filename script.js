@@ -771,11 +771,12 @@ var c = document.getElementById("myCanvas");
 			  boards [boards.length] = new Array (361);
 			  for (var i = 0; i < 361; i++)
 			  {
-				  boards [boards.length][i] = board[i];
+				  boards [boards.length - 1][i] = board[i];
 			  }
+			boards [boards.length] = new Array (361);
 		      for (var i = 0; i < 361; i++)
 			  {
-				  boards [boards.length][i] = board[i];
+				  boards [boards.length - 1][i] = board[i];
 			  }
 			  goes +=2;
 			  passtime = goes;
