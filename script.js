@@ -696,7 +696,7 @@ var c = document.getElementById("myCanvas");
 				}
 
 				
-                boards [goes] = new Array();
+                boards [goes] = new Array(361);
                 for (var i = 0; i < 361; i++)
                 {
                   boards [goes] [i] = board [i];
