@@ -1,0 +1,135 @@
+/* Fonts from Google Fonts - more at https://fonts.google.com */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+/*#goban 
+{
+
+float:left;
+}
+#scores 
+{
+float:right;
+}*/
+
+
+#wrapper {
+  width: 1000px;
+  overflow:wrap; /* will contain if #first is longer than #second */
+  height:620px;
+}
+#goban {
+  width: 608px;
+  padding-right:50px;
+  float:left; /* add this */
+}
+#scores {
+  overflow: hidden; /* if you don't want #second to wrap below #first */
+  font-family: "courier new";
+  font-weight: 1000;
+  font-size: 30px;
+  text-align: left;
+  width:0px;
+  height:0px;
+}
+#black 
+{
+  float:left;
+  padding-bottom:20px;
+  /*background: #63bf00;*/
+  color:black;
+
+}
+#white 
+{
+  float:right;
+  padding-bottom: 20px;
+  /*background: white;
+  border-style:solid;*/
+  border-color:#363636;
+  border-width:3px;
+  color:#838383;
+
+}
+
+#result
+{
+  float;
+  padding-top:60px;
+  padding-bottom: 20px;
+  /*background: white;
+  border-style:solid;*/
+  border-width:3px;
+
+}
+
+
+#sidebar
+{
+
+  width: 200px;
+  float:left;
+  border:black;
+}
+#controls
+{
+  width: 82px;
+  height:82px;
+}
+
+#navigate
+{
+  float:down;
+
+}
+
+#undobutton
+{
+  float:left;
+}
+
+#redobutton
+{
+  padding-left:2px;
+  float:left;
+}
+#pass
+{
+  padding-top:2px;
+}
+#agreedisagree
+{
+  padding-top:42px;
+}
+#agree
+{
+  float:left;
+  
+}
+#disagreebutton
+{
+  padding-left:2px;
+  float:left;
+}
+
+#comments
+{
+  padding-top:50;
+  float:left;
+  font-family:"open sans";
+  font-weight:bold;
+  font-size:22;
+}
+
+h1 
+{
+  font-family: "Merriweather", serif;
+  font-size: 32px;
+}
+body
+{
+  //background-color:rgb(15,15,15);
+}
+.details-bar.cleanslate {
+  display: none !important;
+}
