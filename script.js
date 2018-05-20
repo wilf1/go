@@ -622,7 +622,7 @@ var c = document.getElementById("myCanvas");
         function undo ()
         {
           
-            if (goes > 0)
+            if ((goes > 0 && agreementstage == 0)||(goes > passtime && agreementstage == 2))
             {
               goes--;
               if (passes > 0)
