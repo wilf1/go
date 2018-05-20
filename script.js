@@ -10,6 +10,7 @@ var c = document.getElementById("myCanvas");
         var agreementstage = 0;
         var removalboard = new Array(361);
         var passtime = 0;
+		var passtimes = [0];
         function drawgrid ()
         {
           if (mode == 1)
@@ -563,6 +564,11 @@ var c = document.getElementById("myCanvas");
                     {
                       boards [goes] [i] = board [i];
                     }
+					while (passtimes.length > goes)
+					{
+						passtimes.pop();
+					}
+					passtimes [goes] = 0;
 
                     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
                     render (board);
@@ -580,6 +586,7 @@ var c = document.getElementById("myCanvas");
                       console.log(boards[i].slice(0,18));
 
                     }
+					console.log("pass times: ", passtimes);
                   }
               }
             }
@@ -625,10 +632,6 @@ var c = document.getElementById("myCanvas");
             if ((goes > 0 && agreementstage == 0)||(goes > passtime && agreementstage == 2))
             {
               goes--;
-              if (passes > 0)
-                {
-                  passes --;
-                }
               for (var i = 0; i < 361; i++)
               {
                 board [i] = boards [goes] [i];
@@ -659,11 +662,19 @@ var c = document.getElementById("myCanvas");
           if (boards.length > goes + 1)
             {
               goes++;
+	      	  var isdifferent = 0;
               for (var i = 0; i < 361; i++)
               {
-                board [i] = boards [goes] [i];
+                if (board [i] != boards[goes][i])
+				{
+					isdifferent = 1;
+				}
+		          board [i] = boards [goes] [i];
               }
-              
+              if (isdifferent == 0)
+			  {
+				  pass();
+			  }
               ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
               render (board);
               ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
@@ -687,15 +698,18 @@ var c = document.getElementById("myCanvas");
         {
           if (agreementstage != 1)
             {
-              if (passes > 0)
+              if (passtimes [goes] == 1)
               {
                 goes ++;
 				while (boards.length > goes)
 				{
 					boards.pop();
 				}
-
-				
+				while (passtimes.length > goes)
+				{
+					passtimes.pop();
+				}
+				passtimes [goes] = 1;
                 boards [goes] = new Array(361);
                 for (var i = 0; i < 361; i++)
                 {
@@ -741,6 +755,15 @@ var c = document.getElementById("myCanvas");
               else
               {
                 goes ++;
+				while (boards.length > goes)
+				{
+					boards.pop();
+				}
+				while (passtimes.length > goes)
+				{
+					passtimes.pop();
+				}
+				passtimes [goes] = 1;
                 boards [goes] = new Array();
                 for (var i = 0; i < 361; i++)
                 {
