@@ -690,10 +690,16 @@ var c = document.getElementById("myCanvas");
               if (passes > 0)
               {
                 goes ++;
+				while (boards.length > goes)
+				{
+					boards.pop();
+				}
+
+				
                 boards [goes] = new Array();
                 for (var i = 0; i < 361; i++)
                 {
-                  boards [boards.length - 1] [i] = board [i];
+                  boards [goes] [i] = board [i];
                 }
                 passes = 1;
                 lastmoves[goes] = 361;
