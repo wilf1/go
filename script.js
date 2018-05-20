@@ -9,7 +9,7 @@ var c = document.getElementById("myCanvas");
         var goes = 0;
         var agreementstage = 0;
         var removalboard = new Array(361);
-        
+        var passtime = 0;
         function drawgrid ()
         {
           if (mode == 1)
@@ -621,7 +621,8 @@ var c = document.getElementById("myCanvas");
 
         function undo ()
         {
-          if (goes > 0)
+          
+            if (goes > 0)
             {
               goes--;
               if (passes > 0)
@@ -719,6 +720,7 @@ var c = document.getElementById("myCanvas");
                   hidepassbutton.style.display = "none";
                   var buttons = document.getElementById ("agreedisagree");
                   buttons.style.display = "block";
+                  passtime = goes;
                   for (var i = 0; i < 361; i++)
                   {
                     removalboard [i] = board [i];
@@ -753,26 +755,39 @@ var c = document.getElementById("myCanvas");
         }
         function agreed ()
         {
-          if (agreementstage == 1)
-            {
-              agreementstage = 3;
-              for (var i = 0; i < 361; i++)
-                {
-                  board[i] = removalboard [i];
-                }
-              var pointdifference = scoregame(board);
-              if (pointdifference > 0)
-              {
-                document.getElementById("comments").innerHTML = "<br>black wins";
-              }
-              if (pointdifference < 0)
-              {
-                document.getElementById("comments").innerHTML = "<br>white wins";
+			if (agreementstage == 1)
+			{
+			  agreementstage = 3;
+			  for (var i = 0; i < 361; i++)
+				{
+				  board[i] = removalboard [i];
+				}
+			  boards [boards.length] = new Array (361);
+			  for (var i = 0; i < 361; i++)
+			  {
+				  boards [boards.length][i] = board[i];
+			  }
+		      for (var i = 0; i < 361; i++)
+			  {
+				  boards [boards.length][i] = board[i];
+			  }
+			  goes +=2;
+			  passtime = goes;
 
-              }
-              passes = 2;
-              var buttons = document.getElementById("agreedisagree");
-              buttons.style.display = "none";
+
+			  var pointdifference = scoregame(board);
+			  if (pointdifference > 0)
+			  {
+				document.getElementById("comments").innerHTML = "<br>black wins";
+			  }
+			  if (pointdifference < 0)
+			  {
+				document.getElementById("comments").innerHTML = "<br>white wins";
+
+			  }
+			  passes = 2;
+			  var buttons = document.getElementById("agreedisagree");
+			  buttons.style.display = "none";
             }
         }
         function disagreed()
