@@ -22,7 +22,30 @@ function drawgrid ()
   {
     ctx.fillStyle="rgb(36, 36, 36)";
   }
-  ctx.fillRect(0,0,size * 38, size * 38);
+  ctx.fillRect(5,5,size * 38 - 10, size * 38 - 10);
+  ctx.beginPath();
+  ctx.arc(5,5,5,0,2*Math.PI);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(size * 38 - 5,5,5,0,2*Math.PI);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(size * 38 - 5,size * 38 - 5,5,0,2*Math.PI);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(5,size * 38 - 5,5,0,2*Math.PI);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillRect(0,5,5, size * 38 - 10);
+  ctx.fillRect(5,0, size * 38 - 10,5);
+  ctx.fillRect(size * 38 - 5,5,5, size * 38 - 10);
+  ctx.fillRect(5,size * 38 - 5, size * 38 - 10,5);
+  
+
+  ctx.beginPath();
   for (var i = 0; i < 19; i++)
   {
     ctx.moveTo(i * size * 2 + size + 0.5, size);
