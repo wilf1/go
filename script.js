@@ -49,12 +49,12 @@ function drawgrid ()
   for (var i = 0; i < 19; i++)
   {
     ctx.moveTo(i * size * 2 + size + 0.5, size);
-    ctx.lineTo(i * size * 2 + size + 0.5, size * 37);
+    ctx.lineTo(i * size * 2 + size + 0.5, size * 37 + 0.5);
   }
   for (var i = 0; i < 19; i++)
   {
     ctx.moveTo(size, i * size * 2 + size+ 0.5);
-    ctx.lineTo(size * 37, i * size * 2 + size + 0.5);
+    ctx.lineTo(size * 37 + 0.5, i * size * 2 + size + 0.5);
   }
   // ctx.lineWidth = "2";
   ctx.lineWidth = "1";
