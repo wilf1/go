@@ -1,130 +1,338 @@
-<html><head><title>go</title>
-  <link rel="stylesheet" href="style.css">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head><body style="zoom: 1;">
-  <div id="wrapper">
-    <div id="goban">
-      <canvas id="myCanvas" width="608" height="608">Your browser does not support the HTML5 canvas tag.</canvas>
-      <script src = script.js>
-        
-      </script>
+<html>
+  <head>
+    <title>
+      go
+    </title>
+    <link rel="stylesheet" href="style.css">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body style="zoom: 1;">
+    <div id="wrapper">
+      <div id="goban">
+        <canvas id="myCanvas" width="608" height="608">Your browser does not support the HTML5 canvas tag.</canvas>
+          <script src = script.js>
+
+          </script>
+      </div>
+
+      <div id="scores">
+      </div>
+      
+      <div id="sidebar">
+        <div id = "scorebar">
+          <svg width = "20" height = "608">
+            <rect x = "0" y = "0" width = "20" height = "608" fill = "#5f5f5f" rx = "5" ry = "5" id = "totalbar">
+              <script>
+                var showterritorys = document.getElementById("totalbar");
+
+                showterritorys.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
+                showterritorys.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
+              </script>
+            </rect>
+            <rect x = "0" y = "0" width = "20" height = "0" fill = "#101010" rx = "5" ry = "5" id = "blackbar">
+              <script>
+                var showterritoryx = document.getElementById("blackbar");
+
+                showterritoryx.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
+                showterritoryx.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
+              </script>
+            </rect>
+            <rect x = "0" y = "596.4" width = "20" height = "11.6" fill = "#bebebe" rx = "5" ry = "5" id = "whitebar">
+              <script>
+                var showterritoryz = document.getElementById("whitebar");
+
+                showterritoryx.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
+                showterritoryx.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
+              </script>
+            </rect>
+          </svg>
+        </div>
+        <div id = "controls">
+          <div id = "leftblock">
+            <div id="navigate">
+              <div id="undobutton">
+                <svg width="40" height="40" id="undo" title="undo" onclick="undo()">
+                  <rect x="0" y="0"  rx = "5" ry = "5" width="40" height="40" fill="#4d4d4d" id ="undobox"  >   
+                    <title>
+                      undo
+                    </title>
+                  </rect>
+                  <polygon points="30,8 10,20 30,32" fill="white">
+                  </polygon>
+                  <script>
+                    var button = document.getElementById("undo");
+                    var rectangle = document.getElementById("undobox");
+                    button.addEventListener('mouseover', function()
+                                            {
+                      rectangle.setAttribute("fill", "rgb(120,120,120)");
+                    });
+                    button.addEventListener('mouseout', function()
+                                            {
+                      rectangle.setAttribute("fill", "#4d4d4d");
+                    });
+
+
+                  </script> 
+
+
+                </svg>
+              </div>
+              <div id="redobutton">
+                <svg width="40" height="40"  id="redo" title="redo" onclick="redo()">
+                  <rect x="0" y="0" width="40" height="40"  rx = "5" ry = "5"  fill="#4d4d4d" id = "redobox"  >
+                    <title>
+                      redo
+                    </title>
+                  </rect>
+                  <polygon points="10,8 30,20 10,32" fill="white">
+                  </polygon>
+
+                  <script>
+                    var redobutton = document.getElementById("redo");
+                    var redorectangle = document.getElementById("redobox");
+                    redobutton.addEventListener('mouseover', function()
+                                                {
+                      redorectangle.setAttribute("fill", "rgb(120,120,120)");
+                    });
+                    redobutton.addEventListener('mouseout', function()
+                                                {
+                      redorectangle.setAttribute("fill", "#4d4d4d");
+                    });
+                  </script> 
+                </svg>
+              </div>
+
+              <div id="passbutton">
+                <svg width="82" height="40" id="pass" title="pass" onclick="pass()">
+                  <rect x="0" y="0"  rx = "5" ry = "5"  width="82" height="40" fill="#4d4d4d" id = "passbox"  >
+                    <title>
+                      pass
+                    </title>
+                  </rect>
+                  <circle cx="20" cy="20" r="5" fill="white">
+                  </circle>
+                  <circle cx="41" cy="20" r="5" fill="white">
+                  </circle>
+                  <circle cx="62" cy="20" r="5" fill="white">
+                  </circle>
+                  <script>
+                    var passbutton = document.getElementById("pass");
+                    var passrectangle = document.getElementById("passbox");
+                    passbutton.addEventListener('mouseover', function()
+                                                {
+                      passrectangle.setAttribute("fill", "rgb(120,120,120)");
+                    });
+                    passbutton.addEventListener('mouseout', function()
+                                                {
+                      passrectangle.setAttribute("fill", "#4d4d4d");
+                    });
+                    if (passes > 0)
+                    {
+                      passrectangle.setAttribute("fill", "black");
+                    }
+                  </script> 
+                </svg>
+              </div>
+
+
+              <div id="agreedisagree" style = "display: none;" >
+                <svg width="40"  height="40" id="agree" title="done" >
+                  <rect x="0"  width="40" height="40"  rx = "5" ry = "5" fill="#4d4d4d" id = "agreebox" onclick = "agreed()">
+                    <title>
+                      done
+                    </title>
+                  </rect>
+                  <path d="M10 20 L16.7 26.7  L30 10" stroke="white" stroke-width = "5" fill = "none">
+                  </path>
+                  <script>
+                    var agree = document.getElementById("agree");
+                    var agreerectangle = document.getElementById("agreebox");
+                    agree.addEventListener('mouseover', function()
+                                           {
+                      agreerectangle.setAttribute("fill", "rgb(120,120,120)");
+                    });
+                    agree.addEventListener('mouseout', function()
+                                           {
+                      agreerectangle.setAttribute("fill", "#4d4d4d");
+                    });
+                  </script> 
+                </svg>
+                <div id = "disagreebutton">
+                  <svg width="40" height="40" id="disagree" title="done" >
+                    <rect x="0" y="0"  width="40" height="40"  rx = "5" ry = "5" fill="#4d4d4d" id = "disagreebox" onclick = "disagreed()" >
+                      <title>
+                        can't agree
+                      </title>
+                    </rect>
+                    <path d="M10 30  L30 10 M30 30  L10 10" stroke="white" stroke-width = "5" fill = "none" >
+                    </path>
+                    <script>
+                      var disagree = document.getElementById("disagree");
+                      var disagreerectangle = document.getElementById("disagreebox");
+                      disagree.addEventListener('mouseover', function()
+                                                {
+                        disagreerectangle.setAttribute("fill", "rgb(120,120,120)");
+                      });
+                      disagree.addEventListener('mouseout', function()
+                                                {
+                        disagreerectangle.setAttribute("fill", "#4d4d4d");
+                      });
+                    </script> 
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id = "resignbutton">
+            <svg width="82" height="82" id="resign" title="resign" >
+              <rect x="0" y="0"  width="82" height="82"  rx = "5" ry = "5" fill="#4d4d4d" id = "resignbox" onclick = "resign()">
+                <title>
+                  resign
+                </title>
+              </rect>
+              <path d = "M24 62 L24 20 C36 10 40 30 56 20 L56 40 C40 50 39 30 24 40" stroke="white" stroke-width = "5" fill = "white" >
+              </path>
+              <script>
+                var resigns = document.getElementById("resign");
+                var resignrectangle = document.getElementById("resignbox");
+                resigns.addEventListener('mouseover', function()
+                                          {
+                  resignrectangle.setAttribute("fill", "rgb(120,120,120)");
+                });
+                resigns.addEventListener('mouseout', function()
+                                          {
+                  resignrectangle.setAttribute("fill", "#4d4d4d");
+                });
+              </script>
+
+
+            </svg>
+          </div>
+        </div>
+        <div id = "commentsplace">
+          <svg width="166" height="40" id="commentsbox">
+            <rect x="0" y="0"  width="166" height="40"  rx = "5" ry = "5" fill="#4d4d4d" id = "commentsbox">
+            </rect>
+            <text id = "comments" y = "20" fill = "white">
+            </text>
+
+          </svg>
+        </div>
+        <div id = "black">
+          <svg width="166" height="219" id="blackbox">
+            <rect x="0" y="0"  width="166" height="219"  rx = "5" ry = "5" fill="#121212" id = "blackbox">
+            </rect>
+            <rect x="12" y="123"  width="142" height="67"  rx = "3" ry = "3" fill="#313131" ></rect>
+            <text x = "20" y = "140" fill = "white"  font-size = "12">
+              komi:
+            </text>
+            <text x = "140" y = "140" fill = "white"  font-size = "12" text-anchor = "end">
+              0
+            </text>
+            
+            <text x = "20" y = "160" fill = "white"  font-size = "12">
+              stones:
+            </text>
+            <text x = "140" y = "160" fill = "white"  font-size = "12" text-anchor = "end" id = "blackstones">
+              0
+            </text>
+            <text x = "20" y = "180" fill = "white"  font-size = "12">
+              territory:
+            </text>
+            <text x = "140" y = "180" fill = "white"  font-size = "12" text-anchor = "end" id = "blackterritory">
+              0
+            </text>
+            <rect x="12" y="78"  width="142" height="24"  rx = "3" ry = "3" fill="#313131" ></rect>
+            <text x = "20" y = "94" fill = "white"  font-size = "12">
+              score:
+            </text>
+            <text x = "140" y = "94" fill = "white"  font-size = "12" text-anchor = "end" id = "blacktotal">
+              0
+            </text>
+            <rect x = "12" y = "170" width = "142" height = "10" rx = "3" ry = "3" fill = "#313131" id = "blackscore" style = "display: none;">
+              <script>
+                var showterritorys = document.getElementById("blackscore");
+
+                showterritorys.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
+                showterritorys.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
+              </script>
+            </rect>
+            <rect id = "blackscorebar" x = "12" y = "170" width = "0" height = "10" rx = "3" ry = "3" fill = "white" style = "display: none;">     <script>
+                var showterritoryx = document.getElementById("blackscorebar");
+
+                  showterritoryx.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
+                  showterritoryx.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
+              </script>
+
+            </rect>
+            <text x = "83" y = "25" fill = "white" text-anchor = "middle">
+              black
+            </text>
+            <text text-align = "center" x = "83" y = "56" font-size = "12" fill = "white" id = "blackmoveinfo" text-anchor = "middle">
+              your move
+            </text>
+
+          </svg>
+        </div>
+        <div id = "white">
+          <svg width="166" height="219" id="whitebox"  >
+            <rect x="0" y="0"  width="166" height="219"  rx = "5" ry = "5" fill="#b5b5b5" id = "whitebox">
+            </rect>
+            <rect x="12" y="123"  width="142" height="67"  rx = "3" ry = "3" fill="#656565" ></rect>
+            <text x = "20" y = "140" fill = "white"  font-size = "12">
+              komi:
+            </text>
+            <text x = "140" y = "140" fill = "white"  font-size = "12" text-anchor = "end">
+              7
+            </text>
+
+            <text x = "20" y = "160" fill = "white"  font-size = "12">
+              stones:
+            </text>
+            <text x = "140" y = "160" fill = "white"  font-size = "12" text-anchor = "end" id = "whitestones">
+              0
+            </text>
+            <text x = "20" y = "180" fill = "white"  font-size = "12">
+              territory:
+            </text>
+            <text x = "140" y = "180" fill = "white"  font-size = "12" text-anchor = "end" id = "whiteterritory">
+              0
+            </text>
+            <rect x="12" y="78"  width="142" height="24"  rx = "3" ry = "3" fill="#656565" ></rect>
+            <text x = "20" y = "94" fill = "white"  font-size = "12">
+              score:
+            </text>
+            <text x = "140" y = "94" fill = "white"  font-size = "12" text-anchor = "end" id = "whitetotal">
+              7
+            </text>
+            <rect x = "12" y = "170" width = "142" height = "10" rx = "3" ry = "3" fill = "#313131" id = "blackscore" style = "display: none;">
+              <script>
+                var showterritorys = document.getElementById("blackscore");
+
+                showterritorys.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
+                showterritorys.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
+              </script>
+            </rect>
+            <rect id = "blackscorebar" x = "12" y = "170" width = "0" height = "10" rx = "3" ry = "3" fill = "white" style = "display: none;">     <script>
+              var showterritoryx = document.getElementById("blackscorebar");
+
+              showterritoryx.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
+              showterritoryx.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
+              </script>
+
+            </rect>
+            <text x = "83" y = "25" fill = "black" text-anchor = "middle">
+              white
+            </text>
+            <text text-align = "center" x = "83" y = "56" font-size = "12" fill = "black" id = "whitemoveinfo" text-anchor = "middle">
+            </text>
+
+          </svg>
+        </div>
+      </div>
+      
     </div>
 
-    <div id="scores">
-    </div>
-     
-  <div id="sidebar">
-    <div id = "controls">
-    <div id="navigate">
-      <div id="undobutton">
-        <svg width="40" height="40" id="undo" title="undo" onclick="undo()">
-          <rect x="0" y="0"  rx = "5" ry = "5" width="40" height="40" fill="#4d4d4d" id ="undobox"  ><title>undo</title></rect>
-          <polygon points="30,8 10,20 30,32" fill="white"></polygon>
-          <script>
-            var button = document.getElementById("undo");
-          var rectangle = document.getElementById("undobox");
-            button.addEventListener('mouseover', function()
-                                      {
-              rectangle.setAttribute("fill", "rgb(120,120,120)");
-
-            });
-            button.addEventListener('mouseout', function()
-                                       {
-              rectangle.setAttribute("fill", "#4d4d4d");
-
-            });
-            
-            
-          </script> 
-
-          
-        </svg>
-</div>
-      <div id="redobutton">
-        <svg width="40" height="40"  id="redo" title="redo" onclick="redo()">
-          <rect x="0" y="0" width="40" height="40"  rx = "5" ry = "5"  fill="#4d4d4d" id = "redobox"  ><title>redo</title></rect>
-          <polygon points="10,8 30,20 10,32" fill="white"></polygon>
-
-          <script>
-            var redobutton = document.getElementById("redo");
-            var redorectangle = document.getElementById("redobox");
-            redobutton.addEventListener('mouseover', function()
-                                    {
-              redorectangle.setAttribute("fill", "rgb(120,120,120)");
-
-            });
-            redobutton.addEventListener('mouseout', function()
-                                    {
-              redorectangle.setAttribute("fill", "#4d4d4d");
-
-            });
-
-          </script> </svg></div></div><div id="passbutton"><!--<button id = "pass" onclick = "pass()">pass</button>-->
-    <svg width="82" height="40" id="pass" title="pass" onclick="pass()"><rect x="0" y="0"  rx = "5" ry = "5"  width="82" height="40" fill="#4d4d4d" id = "passbox"  ><title>pass</title></rect>
-      <circle cx="20" cy="20" r="5" fill="white"></circle><circle cx="41" cy="20" r="5" fill="white"></circle><circle cx="62" cy="20" r="5" fill="white"></circle>
-      <script>
-        var passbutton = document.getElementById("pass");
-        var passrectangle = document.getElementById("passbox");
-        passbutton.addEventListener('mouseover', function()
-                                {
-          passrectangle.setAttribute("fill", "rgb(120,120,120)");
-
-        });
-        passbutton.addEventListener('mouseout', function()
-                                {
-          passrectangle.setAttribute("fill", "#4d4d4d");
-
-        });
-
-        if (passes > 0)
-          {
-            passrectangle.setAttribute("fill", "black");
-          }
-
-      </script> 
-    </svg></div>
-   
-
-    <div id="agreedisagree"style = "display: none;" ><!--<button id = "pass" onclick = "pass()">pass</button>-->
-      <svg width="40"  height="40" id="agree" title="done" ><rect x="0"  width="40" height="40"  rx = "5" ry = "5" fill="#4d4d4d" id = "agreebox" onclick = "agreed()"><title>done</title></rect>
-      <path d="M10 20 L16.7 26.7  L30 10" stroke="white" stroke-width = "5" fill = "none"></path>
-      <script>
-        var agree = document.getElementById("agree");
-        var agreerectangle = document.getElementById("agreebox");
-        agree.addEventListener('mouseover', function()
-                                    {
-          agreerectangle.setAttribute("fill", "rgb(120,120,120)");
-
-        });
-        agree.addEventListener('mouseout', function()
-                                    {
-          agreerectangle.setAttribute("fill", "#4d4d4d");
-
-        });
-       
-        
-
-      </script> 
-      </svg><div id = "disagreebutton"><svg width="40" height="40" id="disagree" title="done" ><rect x="0" y="0"  width="40" height="40"  rx = "5" ry = "5" fill="#4d4d4d" id = "disagreebox" onclick = "disagreed()" ><title>can't agree</title></rect>
-    <path d="M10 30  L30 10 M30 30  L10 10" stroke="white" stroke-width = "5" fill = "none" ></path>
-    <script>
-      var disagree = document.getElementById("disagree");
-      var disagreerectangle = document.getElementById("disagreebox");
-      disagree.addEventListener('mouseover', function()
-                             {
-        disagreerectangle.setAttribute("fill", "rgb(120,120,120)");
-
-      });
-      disagree.addEventListener('mouseout', function()
-                             {
-        disagreerectangle.setAttribute("fill", "#4d4d4d");
-
-      });
-     
-
-
-    </script> 
-      </svg></div></div> </div><div id = "comments"></div></div></div>
-
-  </body></html>
+  </body>
+</html>
