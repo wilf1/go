@@ -11,6 +11,7 @@ var agreementstage = 0;
 var removalboard = new Array(361);
 var passtime = 0;
 var passtimes = [0];
+var time = 0;
 function drawgrid ()
 {
   if (mode == 1)
@@ -223,6 +224,33 @@ function scoregame (board)
       }
     }
   }
+  var blackscore = document.getElementById("blackbar");
+  blackscore.setAttribute("height", (blackstones + blackterritory) * 608/ 368);
+  if ((blackstones + blackterritory) * 608/368 < 5)
+    {
+      blackscore.setAttribute("ry", (blackstones + blackterritory) * 608/368);
+    }
+  else
+    {
+      blackscore.setAttribute("ry", 5);
+    }
+  var whitescore = document.getElementById("whitebar");
+  whitescore.setAttribute("height", (whitestones + whiteterritory + 7) * 608/ 368);
+  whitescore.setAttribute ("y", 608 - ((whitestones + whiteterritory + 7) * 608/ 368))
+  if ((whitestones + whiteterritory + 7) * 608/368 < 5)
+  {
+    blackscore.setAttribute("ry", (whitestones + whiteterritory + 7) * 608/368);
+  }
+  else
+  {
+    blackscore.setAttribute("ry", 5);
+  }
+  document.getElementById("blackterritory").innerHTML = blackterritory;
+  document.getElementById("blackstones").innerHTML = blackstones;
+  document.getElementById("blacktotal").innerHTML = blackstones + blackterritory;
+  document.getElementById("whiteterritory").innerHTML = whiteterritory;
+  document.getElementById("whitestones").innerHTML = whitestones;
+  document.getElementById("whitetotal").innerHTML = whitestones + whiteterritory + 7;
 
   return (blackstones + blackterritory -whitestones - whiteterritory - 7);
 }
@@ -230,8 +258,40 @@ function render (goboard)
 {
   ctx.globalAlpha = 1;
   ctx.lineWidth = "1";
+  if (time > 0)
+    {
+      scoregame(goboard);
+      var whosemove = document.getElementById("blackmoveinfo");
+      var whosemovew = document.getElementById("whitemoveinfo");
+      if (goes % 2 == 0)
+      {
+        whosemove.innerHTML = "your move";
+        if (passtimes [goes] == 1)
+        {
+          whosemovew.innerHTML = "white passed";
+        }
+        else
+        {
+          whosemovew.innerHTML = "";
+        }
+      }
+      else
+      {
+        whosemovew.innerHTML = "your move";
+        if (passtimes [goes] == 1)
+          {
+            whosemove.innerHTML = "black passed";
+          }
+        else
+          {
+            whosemove.innerHTML = "";
+          }
+        
+      }
+    }
+  time = 1;
   drawgrid();
-
+  
   for (var x = 0; x < 19; x++)
   {
     for (var y = 0; y < 19; y++)
@@ -289,6 +349,7 @@ function render (goboard)
       }
     }
   }
+  
 
 }
 function ghostrender (goboard, original)
@@ -682,7 +743,7 @@ function undo ()
 }
 function pass ()
 {
-  if (agreementstage != 1)
+  if (agreementstage != 1 && agreementstage != 3)
   {
     if (passtimes [goes] == 1)
     {
@@ -708,11 +769,13 @@ function pass ()
         var pointdifference = scoregame(board);
         if (pointdifference > 0)
         {
-          document.getElementById("comments").innerHTML = "black wins";
+          document.getElementById("blackmoveinfo").innerHTML = "black won by " + pointdifference + " points";
+          document.getElementById("whitemoveinfo").innerHTML = "white lost by " + pointdifference + " points";
         }
         if (pointdifference < 0)
         {
-          document.getElementById("comments").innerHTML = "white wins";
+          document.getElementById("blackmoveinfo").innerHTML = "black lost by " + (0-pointdifference) + " points";
+          document.getElementById("whitemoveinfo").innerHTML = "white won by " + (0-pointdifference) + " points";
 
         }
         passes = 2;
@@ -841,17 +904,56 @@ function agreed ()
     var pointdifference = scoregame(board);
     if (pointdifference > 0)
     {
-      document.getElementById("comments").innerHTML = "<br>black wins";
+      document.getElementById("blackmoveinfo").innerHTML = "black won by " + pointdifference + " points";
+      document.getElementById("whitemoveinfo").innerHTML = "white lost by " + pointdifference + " points";
     }
     if (pointdifference < 0)
     {
-      document.getElementById("comments").innerHTML = "<br>white wins";
+      document.getElementById("blackmoveinfo").innerHTML = "black lost by " + (0-pointdifference) + " points";
+      document.getElementById("whitemoveinfo").innerHTML = "white won by " + (0-pointdifference) + " points";
 
     }
     passes = 2;
-    var buttons = document.getElementById("agreedisagree");
-    buttons.style.display = "none";
+    /*var buttons = document.getElementById("agreedisagree");
+    buttons.style.display = "none";*/
   }
+}
+function resign()
+{
+  if (agreementstage < 3)
+    {
+      agreementstage = 3;
+      console.log("resign");
+      if (goes % 2 == 0)
+      {
+        document.getElementById("blackmoveinfo").innerHTML = "black resigned";
+        document.getElementById("whitemoveinfo").innerHTML = "white won by resignation";
+
+      }
+      else
+      {
+        document.getElementById("blackmoveinfo").innerHTML = "black won by resignation";
+        document.getElementById("whitemoveinfo").innerHTML = "white resigned";
+      }
+    }
+  
+  
+}
+function showterritory()
+{
+  scoregame(board);
+  console.log("show");
+}
+function hideterritory()
+{
+  if (agreementstage!=1 && agreementstage != 3)
+    {
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      render (board);
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      render (board);
+    }
+  
 }
 function disagreed()
 {
