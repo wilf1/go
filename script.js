@@ -941,8 +941,12 @@ function resign()
 }
 function showterritory()
 {
-  scoregame(board);
-  console.log("show");
+  if (agreementstage == 0 || agreementstage == 2)
+    {
+      scoregame(board);
+      console.log("show");
+    }
+  
 }
 function hideterritory()
 {
