@@ -42,8 +42,8 @@
               <script>
                 var showterritoryz = document.getElementById("whitebar");
 
-                showterritoryx.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
-                showterritoryx.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
+                showterritoryz.addEventListener('mouseover', /*showterritory()*/function(){showterritory();});
+                showterritoryz.addEventListener('mouseout', /*showterritory()*/function(){hideterritory();});
               </script>
             </rect>
           </svg>
@@ -53,7 +53,7 @@
             <div id="navigate">
               <div id="undobutton">
                 <svg width="40" height="40" id="undo" title="undo" onclick="undo()">
-                  <rect x="0" y="0"  rx = "5" ry = "5" width="40" height="40" fill="#4d4d4d" id ="undobox"  >   
+                  <rect x="0" y="0"  rx = "5" ry = "5" width="40" height="40" fill="#b7b7b7" id ="undobox"  >   
                     <title>
                       undo
                     </title>
@@ -65,11 +65,27 @@
                     var rectangle = document.getElementById("undobox");
                     button.addEventListener('mouseover', function()
                                             {
-                      rectangle.setAttribute("fill", "rgb(120,120,120)");
+                      if ((goes > 0 && agreementstage == 0)||((passtimes [goes - 1] != 1||passtimes [goes] != 1 )&& agreementstage == 2))
+                        {
+                          rectangle.setAttribute("fill", "rgb(120,120,120)");
+                        }
+
+                      
                     });
                     button.addEventListener('mouseout', function()
                                             {
-                      rectangle.setAttribute("fill", "#4d4d4d");
+
+                      if ((goes > 0 && agreementstage == 0)||((passtimes [goes - 1] != 1||passtimes [goes] != 1 )&& agreementstage == 2))
+                      {
+                        
+                        rectangle.setAttribute("fill", "#4d4d4d");
+                      }
+                      else
+                      {
+                        rectangle.setAttribute("fill", "#b7b7b7");
+                      }
+
+                      
                     });
 
 
@@ -80,7 +96,7 @@
               </div>
               <div id="redobutton">
                 <svg width="40" height="40"  id="redo" title="redo" onclick="redo()">
-                  <rect x="0" y="0" width="40" height="40"  rx = "5" ry = "5"  fill="#4d4d4d" id = "redobox"  >
+                  <rect x="0" y="0" width="40" height="40"  rx = "5" ry = "5"  fill="#b7b7b7" id = "redobox">
                     <title>
                       redo
                     </title>
@@ -93,11 +109,24 @@
                     var redorectangle = document.getElementById("redobox");
                     redobutton.addEventListener('mouseover', function()
                                                 {
-                      redorectangle.setAttribute("fill", "rgb(120,120,120)");
+                      if (boards.length > goes + 1)
+                        {
+                          redorectangle.setAttribute("fill", "rgb(120,120,120)");
+                        }
+                      
                     });
                     redobutton.addEventListener('mouseout', function()
                                                 {
-                      redorectangle.setAttribute("fill", "#4d4d4d");
+
+                      if (boards.length > goes + 1)
+                        {
+                          redorectangle.setAttribute("fill", "#4d4d4d");
+                        }
+                      else
+                        {
+                          redorectangle.setAttribute("fill", "#b7b7b7");
+                        }
+                      
                     });
                   </script> 
                 </svg>
@@ -121,16 +150,24 @@
                     var passrectangle = document.getElementById("passbox");
                     passbutton.addEventListener('mouseover', function()
                                                 {
-                      passrectangle.setAttribute("fill", "rgb(120,120,120)");
+                      if (agreementstage < 3)
+                      {
+                        passrectangle.setAttribute("fill", "rgb(120,120,120)");
+                      }
                     });
                     passbutton.addEventListener('mouseout', function()
                                                 {
-                      passrectangle.setAttribute("fill", "#4d4d4d");
+
+                      if (agreementstage < 3)
+                      {
+                        passrectangle.setAttribute("fill", "#4d4d4d");
+                      }
+                      else
+                      {
+                        passrectangle.setAttribute("fill", "#b7b7b7");
+                      }
                     });
-                    if (passes > 0)
-                    {
-                      passrectangle.setAttribute("fill", "black");
-                    }
+  
                   </script> 
                 </svg>
               </div>
@@ -150,11 +187,24 @@
                     var agreerectangle = document.getElementById("agreebox");
                     agree.addEventListener('mouseover', function()
                                            {
-                      agreerectangle.setAttribute("fill", "rgb(120,120,120)");
+                      if (agreementstage < 3)
+                        {
+                          agreerectangle.setAttribute("fill", "rgb(120,120,120)");
+                        }
+                      
                     });
                     agree.addEventListener('mouseout', function()
                                            {
-                      agreerectangle.setAttribute("fill", "#4d4d4d");
+
+                      if (agreementstage < 3)
+                      {
+                        agreerectangle.setAttribute("fill", "#4d4d4d");
+                      }
+                      else
+                        {
+                          agreerectangle.setAttribute("fill", "#b7b7b7");
+                        }
+                      
                     });
                   </script> 
                 </svg>
@@ -172,11 +222,22 @@
                       var disagreerectangle = document.getElementById("disagreebox");
                       disagree.addEventListener('mouseover', function()
                                                 {
-                        disagreerectangle.setAttribute("fill", "rgb(120,120,120)");
+                        if (agreementstage < 3)
+                        {
+                          disagreerectangle.setAttribute("fill", "rgb(120,120,120)");
+                        }
                       });
                       disagree.addEventListener('mouseout', function()
                                                 {
-                        disagreerectangle.setAttribute("fill", "#4d4d4d");
+
+                        if (agreementstage < 3)
+                        {
+                          disagreerectangle.setAttribute("fill", "#4d4d4d");
+                        }
+                        else
+                        {
+                          disagreerectangle.setAttribute("fill", "#b7b7b7");
+                        }
                       });
                     </script> 
                   </svg>
@@ -197,12 +258,24 @@
                 var resigns = document.getElementById("resign");
                 var resignrectangle = document.getElementById("resignbox");
                 resigns.addEventListener('mouseover', function()
-                                          {
-                  resignrectangle.setAttribute("fill", "rgb(120,120,120)");
+                {
+                  if (agreementstage == 0 || agreementstage == 2)
+                    {
+                      resignrectangle.setAttribute("fill", "rgb(120,120,120)");
+                    }
+                  
                 });
                 resigns.addEventListener('mouseout', function()
                                           {
-                  resignrectangle.setAttribute("fill", "#4d4d4d");
+                  if (agreementstage == 0 || agreementstage == 2)
+                  {
+                    resignrectangle.setAttribute("fill", "#4d4d4d");
+                  }
+                  else
+                  {
+                    
+                    resignrectangle.setAttribute("fill", "#b7b7b7");
+                  }
                 });
               </script>
 
@@ -225,27 +298,27 @@
             </rect>
             <rect x="12" y="123"  width="142" height="67"  rx = "3" ry = "3" fill="#313131" ></rect>
             <text x = "20" y = "140" fill = "white"  font-size = "12">
-              komi:
+              komi
             </text>
             <text x = "140" y = "140" fill = "white"  font-size = "12" text-anchor = "end">
               0
             </text>
             
             <text x = "20" y = "160" fill = "white"  font-size = "12">
-              stones:
+              stones
             </text>
             <text x = "140" y = "160" fill = "white"  font-size = "12" text-anchor = "end" id = "blackstones">
               0
             </text>
             <text x = "20" y = "180" fill = "white"  font-size = "12">
-              territory:
+              territory
             </text>
             <text x = "140" y = "180" fill = "white"  font-size = "12" text-anchor = "end" id = "blackterritory">
               0
             </text>
             <rect x="12" y="78"  width="142" height="24"  rx = "3" ry = "3" fill="#313131" ></rect>
             <text x = "20" y = "94" fill = "white"  font-size = "12">
-              score:
+              score
             </text>
             <text x = "140" y = "94" fill = "white"  font-size = "12" text-anchor = "end" id = "blacktotal">
               0
@@ -281,27 +354,27 @@
             </rect>
             <rect x="12" y="123"  width="142" height="67"  rx = "3" ry = "3" fill="#656565" ></rect>
             <text x = "20" y = "140" fill = "white"  font-size = "12">
-              komi:
+              komi
             </text>
             <text x = "140" y = "140" fill = "white"  font-size = "12" text-anchor = "end">
               7
             </text>
 
             <text x = "20" y = "160" fill = "white"  font-size = "12">
-              stones:
+              stones
             </text>
             <text x = "140" y = "160" fill = "white"  font-size = "12" text-anchor = "end" id = "whitestones">
               0
             </text>
             <text x = "20" y = "180" fill = "white"  font-size = "12">
-              territory:
+              territory
             </text>
             <text x = "140" y = "180" fill = "white"  font-size = "12" text-anchor = "end" id = "whiteterritory">
               0
             </text>
             <rect x="12" y="78"  width="142" height="24"  rx = "3" ry = "3" fill="#656565" ></rect>
             <text x = "20" y = "94" fill = "white"  font-size = "12">
-              score:
+              score
             </text>
             <text x = "140" y = "94" fill = "white"  font-size = "12" text-anchor = "end" id = "whitetotal">
               7
