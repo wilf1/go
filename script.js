@@ -706,6 +706,7 @@ myCanvas.addEventListener("click", function ()
 
     }
   }
+  updatebuttons();
 }
                           ,true);
 
@@ -739,6 +740,7 @@ function undo ()
     }
     console.log("Goes:", goes);
   }
+  updatebuttons();
 
 }
 function pass ()
@@ -826,6 +828,7 @@ function pass ()
       render (board);
     }
   }
+  updatebuttons();
 
 
 
@@ -876,6 +879,7 @@ function redo()
       }
     
   }
+  updatebuttons();
 }
 
 function agreed ()
@@ -917,12 +921,14 @@ function agreed ()
     /*var buttons = document.getElementById("agreedisagree");
     buttons.style.display = "none";*/
   }
+  updatebuttons();
 }
 function resign()
 {
-  if (agreementstage < 3)
+  if (agreementstage == 0 ||agreementstage == 2)
     {
       agreementstage = 3;
+      updatebuttons();
       console.log("resign");
       if (goes % 2 == 0)
       {
@@ -964,6 +970,7 @@ function disagreed()
   if (agreementstage == 1)
   {
     agreementstage = 2;
+    updatebuttons();
     passes = 0;
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     render (board);
@@ -974,6 +981,65 @@ function disagreed()
     buttons.style.display = "none";
     var hidepassbutton = document.getElementById("passbutton");
     hidepassbutton.style.display = "block";
+  }
+}
+function updatebuttons ()
+{
+  var rectangle = document.getElementById("undobox");
+  if ((goes > 0 && agreementstage == 0)||((passtimes [goes - 1] != 1||passtimes [goes] != 1 )&& agreementstage == 2))
+  {
+
+    rectangle.setAttribute("fill", "#4d4d4d");
+  }
+  else
+  {
+    rectangle.setAttribute("fill", "#b7b7b7");
+  }
+  var resignrectangle = document.getElementById("resignbox");
+  if (agreementstage == 0 || agreementstage == 2)
+  {
+    resignrectangle.setAttribute("fill", "#4d4d4d");
+  }
+  else
+  {
+
+    resignrectangle.setAttribute("fill", "#b7b7b7");
+  }
+  var redorectangle = document.getElementById("redobox");
+  if (boards.length > goes + 1)
+  {
+    redorectangle.setAttribute("fill", "#4d4d4d");
+  }
+  else
+  {
+    redorectangle.setAttribute("fill", "#b7b7b7");
+  }
+  var agreerectangle = document.getElementById("agreebox");
+  if (agreementstage < 3)
+  {
+    agreerectangle.setAttribute("fill", "#4d4d4d");
+  }
+  else
+  {
+    agreerectangle.setAttribute("fill", "#b7b7b7");
+  }
+  var disagreerectangle = document.getElementById("disagreebox");
+  if (agreementstage < 3)
+  {
+    disagreerectangle.setAttribute("fill", "#4d4d4d");
+  }
+  else
+  {
+    disagreerectangle.setAttribute("fill", "#b7b7b7");
+  }
+  var passrectangle = document.getElementById("passbox");
+  if (agreementstage < 3)
+  {
+    passrectangle.setAttribute("fill", "#4d4d4d");
+  }
+  else
+  {
+    passrectangle.setAttribute("fill", "#b7b7b7");
   }
 }
 function montecarlo ()
