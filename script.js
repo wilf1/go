@@ -1006,7 +1006,7 @@ function updatebuttons ()
     resignrectangle.setAttribute("fill", "#b7b7b7");
   }
   var redorectangle = document.getElementById("redobox");
-  if (boards.length > goes + 1)
+  if (boards.length > goes + 1 && agreementstage < 3)
   {
     redorectangle.setAttribute("fill", "#4d4d4d");
   }
@@ -1106,8 +1106,7 @@ myCanvas.addEventListener('mousemove', function()
                           {
   if (agreementstage == 0 || agreementstage == 2)
   {
-    var buttons = document.getElementById ("agreedisagree");
-    buttons.style.display = "none";
+
     if (passes < 2)
     {
       ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
@@ -1153,6 +1152,24 @@ myCanvas.addEventListener('mouseout', function()
     render (board);
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     render (board);
+  }
+
+
+
+});
+document.addEventListener('keydown', function()
+                          {
+  console.log(event.keyCode);
+  if (event.keyCode == 37)
+  {
+    undo();
+    
+  }
+  if (event.keyCode == 39)
+  {
+
+    redo();
+
   }
 
 
