@@ -1157,7 +1157,7 @@ myCanvas.addEventListener('mouseout', function()
 
 
 });
-document.addEventListener('keydown', function()
+document.addEventListener('keydown', function(event)
                           {
   console.log(event.keyCode);
   if (event.keyCode == 37)
