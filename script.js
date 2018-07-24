@@ -44,7 +44,7 @@ function drawgrid ()
   ctx.fillRect(5,0, size * 38 - 10,5);
   ctx.fillRect(size * 38 - 5,5,5, size * 38 - 10);
   ctx.fillRect(5,size * 38 - 5, size * 38 - 10,5);
-  
+
 
   ctx.beginPath();
   for (var i = 0; i < 19; i++)
@@ -227,13 +227,13 @@ function scoregame (board)
   var blackscore = document.getElementById("blackbar");
   blackscore.setAttribute("height", (blackstones + blackterritory) * 608/ 368);
   if ((blackstones + blackterritory) * 608/368 < 5)
-    {
-      blackscore.setAttribute("ry", (blackstones + blackterritory) * 608/368);
-    }
+  {
+    blackscore.setAttribute("ry", (blackstones + blackterritory) * 608/368);
+  }
   else
-    {
-      blackscore.setAttribute("ry", 5);
-    }
+  {
+    blackscore.setAttribute("ry", 5);
+  }
   var whitescore = document.getElementById("whitebar");
   whitescore.setAttribute("height", (whitestones + whiteterritory + 7) * 608/ 368);
   whitescore.setAttribute ("y", 608 - ((whitestones + whiteterritory + 7) * 608/ 368))
@@ -259,39 +259,39 @@ function render (goboard)
   ctx.globalAlpha = 1;
   ctx.lineWidth = "1";
   if (time > 0)
+  {
+    scoregame(goboard);
+    var whosemove = document.getElementById("blackmoveinfo");
+    var whosemovew = document.getElementById("whitemoveinfo");
+    if (goes % 2 == 0)
     {
-      scoregame(goboard);
-      var whosemove = document.getElementById("blackmoveinfo");
-      var whosemovew = document.getElementById("whitemoveinfo");
-      if (goes % 2 == 0)
+      whosemove.innerHTML = "your move";
+      if (passtimes [goes] == 1)
       {
-        whosemove.innerHTML = "your move";
-        if (passtimes [goes] == 1)
-        {
-          whosemovew.innerHTML = "white passed";
-        }
-        else
-        {
-          whosemovew.innerHTML = "";
-        }
+        whosemovew.innerHTML = "white passed";
       }
       else
       {
-        whosemovew.innerHTML = "your move";
-        if (passtimes [goes] == 1)
-          {
-            whosemove.innerHTML = "black passed";
-          }
-        else
-          {
-            whosemove.innerHTML = "";
-          }
-        
+        whosemovew.innerHTML = "";
       }
     }
+    else
+    {
+      whosemovew.innerHTML = "your move";
+      if (passtimes [goes] == 1)
+      {
+        whosemove.innerHTML = "black passed";
+      }
+      else
+      {
+        whosemove.innerHTML = "";
+      }
+
+    }
+  }
   time = 1;
   drawgrid();
-  
+
   for (var x = 0; x < 19; x++)
   {
     for (var y = 0; y < 19; y++)
@@ -349,7 +349,7 @@ function render (goboard)
       }
     }
   }
-  
+
 
 }
 function ghostrender (goboard, original)
@@ -593,7 +593,7 @@ function islegal (board, x, y, move)
   }
 }
 
-myCanvas.addEventListener("click", function ()
+myCanvas.addEventListener("click", function (event)
                           {
 
   if (agreementstage == 0 || agreementstage == 2)
@@ -848,36 +848,36 @@ function redo()
       //lastmoves[goes] = 361;
     }
     else
+    {
+      goes++;
+
+      for (var i = 0; i < 361; i++)
       {
-        goes++;
 
-        for (var i = 0; i < 361; i++)
-        {
-
-          board [i] = boards [goes] [i];
-        }
-
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        render (board);
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        render (board);
-        console.log("board:");
-        for (var i = 0; i < 1; i++)
-        {
-          console.log(board.slice(i * 19, i * 19 + 19));
-        }
-        console.log("boardsss length: ", boards.length);
-        console.log("boardssss:");
-        for (var i = 0; i < boards.length; i++)
-        {
-          console.log(boards[i].slice(0,18));
-
-        }
-        console.log("Goes:", goes);
-        console.log("passtimes:", passtimes);
-        console.log("lastmoves:", lastmoves);
+        board [i] = boards [goes] [i];
       }
-    
+
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      render (board);
+      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+      render (board);
+      console.log("board:");
+      for (var i = 0; i < 1; i++)
+      {
+        console.log(board.slice(i * 19, i * 19 + 19));
+      }
+      console.log("boardsss length: ", boards.length);
+      console.log("boardssss:");
+      for (var i = 0; i < boards.length; i++)
+      {
+        console.log(boards[i].slice(0,18));
+
+      }
+      console.log("Goes:", goes);
+      console.log("passtimes:", passtimes);
+      console.log("lastmoves:", lastmoves);
+    }
+
   }
   updatebuttons();
 }
@@ -926,44 +926,44 @@ function agreed ()
 function resign()
 {
   if (agreementstage == 0 ||agreementstage == 2)
+  {
+    agreementstage = 3;
+    updatebuttons();
+    console.log("resign");
+    if (goes % 2 == 0)
     {
-      agreementstage = 3;
-      updatebuttons();
-      console.log("resign");
-      if (goes % 2 == 0)
-      {
-        document.getElementById("blackmoveinfo").innerHTML = "black resigned";
-        document.getElementById("whitemoveinfo").innerHTML = "white won by resignation";
+      document.getElementById("blackmoveinfo").innerHTML = "black resigned";
+      document.getElementById("whitemoveinfo").innerHTML = "white won by resignation";
 
-      }
-      else
-      {
-        document.getElementById("blackmoveinfo").innerHTML = "black won by resignation";
-        document.getElementById("whitemoveinfo").innerHTML = "white resigned";
-      }
     }
-  
-  
+    else
+    {
+      document.getElementById("blackmoveinfo").innerHTML = "black won by resignation";
+      document.getElementById("whitemoveinfo").innerHTML = "white resigned";
+    }
+  }
+
+
 }
 function showterritory()
 {
   if (agreementstage == 0 || agreementstage == 2)
-    {
-      scoregame(board);
-      console.log("show");
-    }
-  
+  {
+    scoregame(board);
+    console.log("show");
+  }
+
 }
 function hideterritory()
 {
   if (agreementstage!=1 && agreementstage != 3)
-    {
-      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-      render (board);
-      ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-      render (board);
-    }
-  
+  {
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    render (board);
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    render (board);
+  }
+
 }
 function disagreed()
 {
@@ -1102,7 +1102,7 @@ function montecarlo ()
   }
   territoryrender(territorycount);
 }
-myCanvas.addEventListener('mousemove', function()
+myCanvas.addEventListener('mousemove', function(event)
                           {
   if (agreementstage == 0 || agreementstage == 2)
   {
@@ -1163,7 +1163,7 @@ document.addEventListener('keydown', function()
   if (event.keyCode == 37)
   {
     undo();
-    
+
   }
   if (event.keyCode == 39)
   {
