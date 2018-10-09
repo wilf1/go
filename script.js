@@ -12,6 +12,7 @@ var removalboard = new Array(361);
 var passtime = 0;
 var passtimes = [0];
 var time = 0;
+var komi = 7.5;
 function drawgrid ()
 {
   if (mode == 1)
@@ -200,7 +201,7 @@ function scoregame (board)
       if (board[x + y * 19] == 0)
       {
         ctx.beginPath();
-        ctx.arc(x * size * 2 + size + 0.5,y * size * 2 + size + 0.5,5,0,2*Math.PI);
+        ctx.arc(x * size * 2 + size + 0.5,y * size * 2 + size + 0.5,size/3,0,2*Math.PI);
         ctx.lineWidth = "1.5";
         if (finalscan[x + y * 19] == 2)
         {
@@ -235,8 +236,8 @@ function scoregame (board)
     blackscore.setAttribute("ry", 5);
   }
   var whitescore = document.getElementById("whitebar");
-  whitescore.setAttribute("height", (whitestones + whiteterritory + 7) * 608/ 368);
-  whitescore.setAttribute ("y", 608 - ((whitestones + whiteterritory + 7) * 608/ 368))
+  whitescore.setAttribute("height", (whitestones + whiteterritory + komi) * 608/ 368);
+  whitescore.setAttribute ("y", 608 - ((whitestones + whiteterritory + komi) * 608/ 368))
   if ((whitestones + whiteterritory + 7) * 608/368 < 5)
   {
     blackscore.setAttribute("ry", (whitestones + whiteterritory + 7) * 608/368);
@@ -250,10 +251,276 @@ function scoregame (board)
   document.getElementById("blacktotal").innerHTML = blackstones + blackterritory;
   document.getElementById("whiteterritory").innerHTML = whiteterritory;
   document.getElementById("whitestones").innerHTML = whitestones;
-  document.getElementById("whitetotal").innerHTML = whitestones + whiteterritory + 7;
+  document.getElementById("whitetotal").innerHTML = whitestones + whiteterritory + komi;
 
-  return (blackstones + blackterritory -whitestones - whiteterritory - 7);
-}
+  return (blackstones + blackterritory -whitestones - whiteterritory - komi);
+}/*
+var estimatescore = function ()
+{
+  var estimateboard = new Array (361);
+  var change;
+  for (var i = 0; i < 361; i++)
+  {
+    estimateboard [i] = 0;
+  }
+  for (var i = 0; i < 361; i++)
+  {
+    if (board [i] > 0)
+    {
+      if (board [i] == 1)
+      {
+        change = -1;
+      }
+      if (board [i] == 2)
+      {
+        change = 1;
+      }
+      estimateboard [i]+=change;
+      if (i % 19 > 0)
+      {
+        estimateboard[i-1]+= change;
+      }
+      if (i % 19 > 1)
+      {
+        estimateboard[i-2]+= change;
+      }
+      if (i % 19 < 18)
+      {
+        estimateboard[i+1]+=change;
+      }
+      if (i % 19 < 17)
+      {
+        estimateboard[i+2]+=change;
+      }
+      if (i % 19 > 0 && i > 18)
+      {
+        estimateboard[i - 20]+=change;
+      }
+      if (i % 19 > 0 && i < 342)
+      {
+        estimateboard[i + 18]+=change;
+      }
+      if (i % 19 < 18 && i < 342)
+      {
+        estimateboard[i + 20]+=change;
+      }
+      if (i % 19 < 18 && i > 18)
+      {
+        estimateboard[i - 18]+=change;
+      }
+
+
+      if (i > 18)
+      {
+        estimateboard[i-19]+=change;
+      }
+      if (i > 37)
+      {
+        estimateboard[i-38]+=change;
+      }
+      if (i < 342)
+      {
+        estimateboard[i+19]+=change;
+      }
+      if (i < 323)
+      {
+        estimateboard[i+38]+=change;
+      }
+    }
+
+
+
+  }
+ // console.log("estimateb: ", estimateboard);
+  
+  var alivestones = new Array (361);
+  for (var i = 0; i < 361; i++)
+    {
+      alivestones [i] = 0;
+    }
+  for (var i = 0; i < 361; i++)
+    {
+      if (board [i] == 2 && estimateboard [i] > 0)
+        {
+          alivestones [i] = 2;
+        }
+      if (board [i] == 1 && estimateboard [i] < 0)
+      {
+        alivestones [i] = 1;
+      }
+    }
+//  console.log(alivestones);
+  for (var i = 0; i < 361; i++)
+    {
+      estimateboard [i] = 0;
+    }
+  for (var i = 0; i < 361; i++)
+  {
+    if (alivestones [i] > 0)
+    {
+      if (alivestones [i] == 1)
+      {
+        change = -1;
+      }
+      if (alivestones [i] == 2)
+      {
+        change = 1;
+      }
+      estimateboard [i]+=change;
+      if (i % 19 > 0)
+      {
+        estimateboard[i-1]+= change;
+      }
+      if (i % 19 > 1)
+      {
+        estimateboard[i-2]+= change;
+      }
+      if (i % 19 < 18)
+      {
+        estimateboard[i+1]+=change;
+      }
+      if (i % 19 < 17)
+      {
+        estimateboard[i+2]+=change;
+      }
+      if (i % 19 > 0 && i > 18)
+      {
+        estimateboard[i - 20]+=change;
+      }
+      if (i % 19 > 0 && i < 342)
+      {
+        estimateboard[i + 18]+=change;
+      }
+      if (i % 19 < 18 && i < 342)
+      {
+        estimateboard[i + 20]+=change;
+      }
+      if (i % 19 < 18 && i > 18)
+      {
+        estimateboard[i - 18]+=change;
+      }
+
+
+      if (i > 18)
+      {
+        estimateboard[i-19]+=change;
+      }
+      if (i > 37)
+      {
+        estimateboard[i-38]+=change;
+      }
+      if (i < 342)
+      {
+        estimateboard[i+19]+=change;
+      }
+      if (i < 323)
+      {
+        estimateboard[i+38]+=change;
+      }
+    }
+
+
+
+  }
+//  console.log(estimateboard);
+  for (var i = 0; i < 361; i++)
+  {
+    if (alivestones [i] == 1)
+    {
+      estimateboard [i] = 1;
+    }
+    else
+    {
+      if (estimateboard [i] > 0)
+      {
+        estimateboard [i] = 2;
+      }
+    }
+    if (alivestones [i] == 2)
+    {
+      estimateboard [i] = 2;
+    }
+    else
+      {
+        if (estimateboard [i] < 0)
+          {
+            estimateboard [i] = 1;
+          }
+      }
+    
+  }
+  //console.log(estimateboard);
+  var whitepoints = 0;
+  var blackpoints = 0;
+  for (var i = 0; i < 361; i++)
+  {
+    if (estimateboard [i] == 1)
+    {
+      whitepoints++;
+    }
+    if (estimateboard [i] == 2)
+    {
+      blackpoints++;
+    }
+  }
+  ctx.globalAlpha = 1;
+  for (var x = 0; x < 19; x++)
+  {
+    for (var y = 0; y < 19; y++)
+    {
+
+    //  if (board[x + y * 19] == 0)
+    //  {
+        ctx.beginPath();
+        ctx.arc(x * size * 2 + size + 0.5,y * size * 2 + size + 0.5,5,0,2*Math.PI);
+        ctx.lineWidth = "1.5";
+        if (estimateboard[x + y * 19] == 2)
+        {
+          ctx.strokeStyle = "black";
+          ctx.stroke();
+          ctx.fillStyle = "black";
+          ctx.fill();
+          ctx.strokeStyle = "black";
+        }
+        if (estimateboard[x + y * 19] == 1)
+        {
+          ctx.strokeStyle = "white";
+          ctx.stroke();
+          ctx.fillStyle = "white";
+          ctx.fill();
+          ctx.strokeStyle = "white";
+
+
+        }
+
+      }
+    }
+  }
+  var blackscore = document.getElementById("blackbar");
+  blackscore.setAttribute("height", (blackpoints) * 608/ 368);
+  if ((blackpoints) * 608/368 < 5)
+  {
+    blackscore.setAttribute("ry", (blackpoints) * 608/368);
+  }
+  else
+  {
+    blackscore.setAttribute("ry", 5);
+  }
+  var whitescore = document.getElementById("whitebar");
+  whitescore.setAttribute("height", (whitepoints+ 7) * 608/ 368);
+  whitescore.setAttribute ("y", 608 - ((whitepoints + 7) * 608/ 368))
+  if ((whitepoints + 7) * 608/368 < 5)
+  {
+    whitescore.setAttribute("ry", (whitepoints + 7) * 608/368);
+  }
+  else
+  {
+    whitescore.setAttribute("ry", 5);
+  }
+
+
+};
+*/
 function render (goboard)
 {
   ctx.globalAlpha = 1;
@@ -339,7 +606,7 @@ function render (goboard)
       if (x + y * 19 == lastmoves[goes])
       {
         ctx.beginPath();
-        ctx.arc(x * size * 2 + size + 0.5,y * size * 2 + size + 0.5,5,0,2*Math.PI);
+        ctx.arc(x * size * 2 + size + 0.5,y * size * 2 + size + 0.5,size / 3,0,2*Math.PI);
         ctx.lineWidth = "1.5";
         ctx.strokeStyle = "#696969";
         ctx.stroke();
@@ -512,12 +779,19 @@ render (board);
 
 function getx (x, size)
 {
-  return Math.floor ((x - size + 8)/(size * 2));
+  var canvas = document.getElementById("goban");
+
+  x = x - c.getBoundingClientRect().left;
+  return Math.floor ((x)/(size * 2));
 }
-function gety (y)
+function gety (y, size)
 {
-  return Math.floor ((y - 10) / 20);
+  var canvas = document.getElementById("goban");
+
+  y = y - c.getBoundingClientRect().top;
+  return Math.floor ((y)/(size * 2));
 }
+
 function scanboard (board)
 {
   var scan = new Array (361);
@@ -602,10 +876,10 @@ myCanvas.addEventListener("click", function (event)
     var y = event.clientY; 
 
 
-    if (islegal (board, getx (x, size), getx (y, size), goes % 2 + 1))
+    if (islegal (board, getx (x, size), gety (y, size), goes % 2 + 1))
     {
       goes++;
-      board = makemove (board, getx (x, size), getx (y, size), goes % 2 + 1);
+      board = makemove (board, getx (x, size), gety (y, size), goes % 2 + 1);
       var check;
       var totalcheck = 0;
       for (var i = 0; i < goes; i++)
@@ -637,7 +911,7 @@ myCanvas.addEventListener("click", function (event)
       else
       {
 
-        lastmoves[goes] = getx (x, size) + getx (y, size) * 19;
+        lastmoves[goes] = getx (x, size) + gety (y, size) * 19;
         passes = 0;
         while (boards.length > goes)
         {
@@ -679,7 +953,7 @@ myCanvas.addEventListener("click", function (event)
     if (agreementstage == 1)
     {
       var x = getx(event.clientX, size);    
-      var y = getx(event.clientY, size); 
+      var y = gety(event.clientY, size); 
       if (removalboard [x + y * 19] > 0)
       {
         removalboard[ x + y * 19] = 0;
@@ -950,7 +1224,6 @@ function showterritory()
   if (agreementstage == 0 || agreementstage == 2)
   {
     scoregame(board);
-    console.log("show");
   }
 
 }
@@ -1116,9 +1389,10 @@ myCanvas.addEventListener('mousemove', function(event)
       var x = event.clientX;    
       var y = event.clientY; 
       x = getx(x,size);
-      y = getx(y,size);
+      y = gety(y,size);
       if (islegal(board, x, y))
       {
+        document.body.style.cursor = "pointer";
 
         ctx.lineWidth = "1.8";
         ctx.lineStyle = "black";
@@ -1140,12 +1414,17 @@ myCanvas.addEventListener('mousemove', function(event)
         ctx.stroke();
         ctx.fill();
       }
+      else
+        {
+          document.body.style.cursor = "default";
+        }
     }
   }
 
 });
 myCanvas.addEventListener('mouseout', function()
                           {
+  document.body.style.cursor = "default";
   if (passes < 2 && (agreementstage == 0|| agreementstage == 2))
   {
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
@@ -1175,3 +1454,4 @@ document.addEventListener('keydown', function(event)
 
 
 });
+
